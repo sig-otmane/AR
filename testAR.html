@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Touristique en Réalité Augmentée</title>
+    <!-- Inclure les bibliothèques Leaflet et AR.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+</head>
+<body>
+    <!-- Créer un conteneur pour la carte Leaflet -->
+    <div id="map" style="height: 700px;"></div>
+
+    <!-- Créer un conteneur pour la réalité augmentée -->
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+        <!-- Ajouter une entité AR -->
+        <a-marker type="pattern" url="pattern-marker.patt">
+            <!-- Ajouter du contenu AR ici, par exemple des informations textuelles -->
+            <a-text value="Statue célèbre" position="-1 0.1 0" align="center"></a-text>
+        </a-marker>
+        <!-- Activer la caméra -->
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        // Créer une carte Leaflet
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        // Ajouter une couche de carte, par exemple OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Ajouter un marqueur sur la carte Leaflet
+        var marker = L.marker([51.5, -0.09]).addTo(map);
+        marker.bindPopup("Statue célèbre").openPopup();
+    </script>
+</body>
+</html>
