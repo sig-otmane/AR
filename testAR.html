@@ -1,9 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Touristique en Réalité Augmentée</title>
+    <!-- Inclure les bibliothèques Leaflet et AR.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 <!-- AR.js by @jerome_etienne - github: https://github.com/jeromeetienne/ar.js - info: https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf -->
 <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
 <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
+</head>
 <body style='margin : 0px; overflow: hidden;'>
-	<a-scene embedded arjs='sourceType: webcam;'>
-		<a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
-		<a-marker-camera preset='hiro'></a-marker-camera>
+   <!-- Créer un conteneur pour la carte Leaflet -->
+   <div id="map" style="height: 700px;"></div>
+
+	<a-scene embedded artoolkit='sourceType: webcam;'>
+	<a-sphere src="https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/space/earth_atmos_4096.jpg" radius="0.5" position="0 0.5 0" segments-height="10">
+         <a-animation attribute="scale"
+              dur="1000"
+              from= "0.1 0.1 0.1"
+              to="0.2 0.2 0.2"
+              direction='alternate-reverse'
+              easing= "ease-in-out-circ"     
+              repeat="indefinite"></a-animation>
+     </a-sphere>
+		<a-marker-camera preset='Hiro'></a-marker-camera>
 	</a-scene>
+
+  <script>
+    // Créer une carte Leaflet
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    // Ajouter une couche de carte, par exemple OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajouter un marqueur sur la carte Leaflet
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+
+// Function to display AR content when clicking on the marker
+function displayAR() {
+            // Create a basic AR.js scene
+            var scene = document.createElement("a-scene");
+            var camera = document.createElement("a-entity");
+            camera.setAttribute("camera", "");
+            camera.setAttribute("look-controls", "");
+            scene.appendChild(camera);
+
+            // Create and position an image
+            var image = document.createElement("a-image");
+            image.setAttribute("src", "https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/images/space/earth_atmos_4096.jpg"); // Replace with your image URL
+            image.setAttribute("position", "0 0 -5"); // Adjust the position as needed
+            image.setAttribute("scale", "2 2 1"); // Adjust the scale as needed
+            scene.appendChild(image);
+
+            // Attach the AR scene to the body
+            document.body.appendChild(scene);
+
+            // You can add more 3D objects and customize the scene as needed
+        }
+
+        // Bind the AR display function to the marker click event
+        marker.on('click', displayAR);
+
+</script>
 </body>
+</html>
