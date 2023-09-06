@@ -31,7 +31,7 @@
 
   <script>
     // Créer une carte Leaflet
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map').setView([33.609845406590146, -7.632742646298471], 8);
 
     // Ajouter une couche de carte, par exemple OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -39,7 +39,13 @@
     }).addTo(map);
 
     // Ajouter un marqueur sur la carte Leaflet
-    var marker = L.marker([51.5, -0.09]).addTo(map);
+    var PointIcon = L.icon({
+    iconUrl: 'terre.gif',
+
+    iconSize:     [38, 95], // size of the icon
+    
+});
+    var marker = L.marker([33.609845406590146, -7.632742646298471], {icon: PointIcon}).addTo(map);
 
 // Function to display AR content when clicking on the marker
 function displayAR() {
